@@ -16,18 +16,26 @@ const Signup = () => {
       return;
     }
 
-    // generate 6-digit code
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
+    // require a Gmail address for this project
+    if (!email.toLowerCase().endsWith("@gmail.com")) {
+      toast({ title: "Please use a Gmail address" });
+      return;
+    }
 
-    // store temporary signup info
-    const temp = { username, email, password, code };
-    localStorage.setItem("signup_temp", JSON.stringify(temp));
-
-    // simulate sending email
-    toast({ title: "Verification sent", description: `Sent code to ${email}` });
-
-    // navigate to verification page
-    navigate("/verify");
+    // Create user and auto sign-in (skip verification step)
+    const usersRaw = localStorage.getItem("users");
+    const users = usersRaw ? JSON.parse(usersRaw) : [];
+    // prevent duplicates
+    if (users.find((u: any) => u.username === username || u.email === email)) {
+      toast({ title: "Account exists", description: "A user with this username or email already exists" });
+      return;
+    }
+    users.push({ username, email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+    // Mark as logged in
+    localStorage.setItem("logged_in_user", JSON.stringify({ username, email }));
+    toast({ title: "You have signed in" });
+    navigate("/signup-success");
   };
 
   return (
@@ -73,7 +81,7 @@ const Signup = () => {
           </div>
 
           <div className="flex items-center gap-4 pt-2">
-            <Button type="submit" className="bg-primary text-white">Send Verification</Button>
+            <Button type="submit" className="bg-primary text-white">Sign up and Sign in</Button>
             <Button asChild variant="outline">
               <a href="/">Cancel</a>
             </Button>

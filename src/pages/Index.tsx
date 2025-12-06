@@ -106,9 +106,7 @@ const Index = () => {
               <a href="https://ai.studio/apps/drive/10fTEg1ReODmIY2X0BCyE2Aa8nXhKGZ0H" target="_blank" rel="noopener noreferrer">View App</a>
             </Button>
 
-            <Button size="lg" variant="outline" className="border-border hover:bg-muted px-8 py-6 text-lg">
-              Learn More
-            </Button>
+            {/* Learn More removed as per request */}
           </div>
         </div>
         

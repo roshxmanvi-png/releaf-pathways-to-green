@@ -10,6 +10,7 @@ import Verify from "./pages/Verify";
 import SignupSuccess from "./pages/SignupSuccess";
 import Login from "./pages/Login";
 import { AuthProvider } from "./contexts/AuthContext";
+import Chatbot from "./components/Chatbot";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
       <AuthProvider>
         <Toaster />
         <Sonner />
+        <Chatbot />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />

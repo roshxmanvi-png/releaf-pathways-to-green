@@ -28,17 +28,9 @@ const Verify = () => {
       navigate("/signup");
       return;
     }
-    if (codeInput.trim() === temp.code) {
-      // complete signup
-      const usersRaw = localStorage.getItem("users");
-      const users = usersRaw ? JSON.parse(usersRaw) : [];
-      users.push({ username: temp.username, email: temp.email, password: temp.password });
-      localStorage.setItem("users", JSON.stringify(users));
-      localStorage.removeItem("signup_temp");
-      navigate("/signup-success");
-    } else {
-      toast({ title: "Incorrect code", description: "Please check the verification code and try again." });
-    }
+    // Since we don't use verification codes anymore (signup auto signs-in), guide the user
+    toast({ title: "No code needed", description: "You should be signed in already. Go to Home." });
+    navigate("/");
   };
 
   return (

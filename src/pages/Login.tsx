@@ -17,11 +17,28 @@ const Login = () => {
       return;
     }
 
+    // check if user exists
+    const usersRaw = localStorage.getItem("users");
+    const users = usersRaw ? JSON.parse(usersRaw) : [];
+    const found = users.find((u: any) => u.username === username || u.email === username);
+    if (!found) {
+      toast({ title: "Error", description: "No such user. Please sign up." });
+      return;
+    }
+    if (found.password !== password) {
+      toast({ title: "Error", description: "Invalid password" });
+      return;
+    }
+    if (!found.email?.toLowerCase().endsWith("@gmail.com")) {
+      toast({ title: "Error", description: "Please use a Gmail account to sign in" });
+      return;
+    }
+
     if (login(username, password)) {
       toast({ title: "Success", description: "Logged in successfully!" });
       navigate("/");
     } else {
-      toast({ title: "Error", description: "Invalid username or password" });
+      toast({ title: "Error", description: "Login failed" });
     }
   };
 
@@ -33,12 +50,12 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm mb-1">Username</label>
+            <label className="block text-sm mb-1">Username or Email</label>
             <input
               className="w-full px-3 py-2 rounded-md bg-background border border-input"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Your username"
+              placeholder="Your username or you@gmail.com"
               required
             />
           </div>

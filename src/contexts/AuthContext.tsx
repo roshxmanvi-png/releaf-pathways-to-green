@@ -25,12 +25,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = (username: string, password: string): boolean => {
+  const login = (identifier: string, password: string): boolean => {
     const usersRaw = localStorage.getItem("users");
     const users = usersRaw ? JSON.parse(usersRaw) : [];
-
-    const found = users.find((u: any) => u.username === username && u.password === password);
+    // find user by username or email
+    const found = users.find(
+      (u: any) => (u.username === identifier || u.email === identifier) && u.password === password,
+    );
     if (found) {
+      // require Gmail-based accounts (per project rules)
+      if (!found.email?.toLowerCase().endsWith("@gmail.com")) {
+        return false;
+      }
       const userData = { username: found.username, email: found.email };
       setUser(userData);
       localStorage.setItem("logged_in_user", JSON.stringify(userData));
