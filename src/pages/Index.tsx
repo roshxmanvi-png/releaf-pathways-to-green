@@ -1,8 +1,12 @@
-import { Leaf, Sun, TreePine, Waves, ArrowRight, Globe, Sparkles } from "lucide-react";
+import { Leaf, Sun, TreePine, Waves, ArrowRight, Globe, Sparkles, LogOut } from "lucide-react";
 import Hyperspeed from "@/components/Hyperspeed/Hyperspeed";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Index = () => {
+  const { isAuthenticated, user, logout } = useAuth();
+
   const levels = [
     {
       title: "Climate Action",
@@ -38,9 +42,32 @@ const Index = () => {
             <a href="#levels" className="text-muted-foreground hover:text-foreground transition-colors">Levels</a>
             <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
           </div>
-          <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
-            Play Now
-          </Button>
+          <div className="flex items-center gap-3">
+            {isAuthenticated ? (
+              <>
+                <div className="text-sm text-muted-foreground">
+                  Welcome, <span className="font-semibold text-foreground">{user?.username}</span>
+                </div>
+                <Button onClick={logout} variant="outline" className="flex items-center gap-2">
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button asChild variant="outline" className="text-white">
+                  <Link to="/signup">Sign Up</Link>
+                </Button>
+                <Button asChild variant="outline" className="text-white">
+                  <Link to="/login">Login</Link>
+                </Button>
+              </>
+            )}
+
+            <Button asChild className="bg-primary hover:bg-primary/90 text-white">
+              <a href="https://www.roblox.com/games/139467356463044/three-R#game-age-recommendation-details-container" target="_blank" rel="noopener noreferrer">Play Now</a>
+            </Button>
+          </div>
         </div>
       </nav>
 
@@ -68,10 +95,17 @@ const Index = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up delay-300">
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg glow">
-              Start Your Journey
-              <ArrowRight className="ml-2 w-5 h-5" />
+            <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-lg glow">
+              <a href="https://www.roblox.com/games/139467356463044/three-R#game-age-recommendation-details-container" target="_blank" rel="noopener noreferrer">
+                Start Your Journey
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </a>
             </Button>
+
+            <Button asChild size="lg" variant="outline" className="border-border hover:bg-muted px-8 py-6 text-lg">
+              <a href="/app">View App</a>
+            </Button>
+
             <Button size="lg" variant="outline" className="border-border hover:bg-muted px-8 py-6 text-lg">
               Learn More
             </Button>
@@ -212,9 +246,11 @@ const Index = () => {
           <p className="text-muted-foreground text-xl max-w-2xl mx-auto mb-8">
             Join thousands of players in the journey towards a sustainable future
           </p>
-          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-12 py-6 text-xl glow">
-            Play Releaf Now
-            <ArrowRight className="ml-2 w-6 h-6" />
+          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-white px-12 py-6 text-xl glow">
+            <a href="https://www.roblox.com/games/139467356463044/three-R#game-age-recommendation-details-container" target="_blank" rel="noopener noreferrer">
+              Play Releaf Now
+              <ArrowRight className="ml-2 w-6 h-6" />
+            </a>
           </Button>
         </div>
       </section>
