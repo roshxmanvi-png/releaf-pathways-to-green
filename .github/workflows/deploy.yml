@@ -12,6 +12,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BASE_PATH: "/releaf-pathways-to-green/"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
