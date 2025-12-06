@@ -3,13 +3,13 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 
-const cannedResponses = (msg: string, username?: string) => {
+  const cannedResponses = (msg: string, username?: string) => {
   const text = msg.toLowerCase();
   if (text.includes("level") || text.includes("levels")) {
     return `Hi ${username || "Player"}! Releaf has 3 levels: \n1) Climate Action — take action against climate change. \n2) Life on Land — protect and restore terrestrial ecosystems. \n3) Life Underwater — conserve marine resources.`;
   }
   if (text.includes("about") || text.includes("game")) {
-    return `Releaf is a sustainability gaming experience that teaches players real-world environmental practices while they play. It centers on interactive challenges and rewards for thoughtful environmental choices.`;
+  return `Releaf is a sustainability-focused game that teaches players how everyday choices can help the environment — through fun challenges, rewards, and in-game impact tracking.`;
   }
   if (text.includes("play") || text.includes("start")) {
     return `To start your journey, click 'Start Your Journey' on the home screen. You can also Play Now to open the game experience directly.`;
@@ -21,7 +21,10 @@ export default function Chatbot() {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<{ from: "user" | "bot"; text: string }[]>([
-    { from: "bot", text: "Hi! I'm Releaf Chat. Ask me about the game and its levels." },
+    {
+      from: "bot",
+      text: "Hi! I'm Releaf Chat — your friendly in-game assistant. I can help with levels, challenges, and rewards. I don't answer questions outside the game."
+    },
   ]);
   const [value, setValue] = useState("");
 
@@ -48,7 +51,9 @@ export default function Chatbot() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Releaf Chat</DialogTitle>
-          <DialogDescription>Ask me about the game or levels. I won't answer anything outside the game.</DialogDescription>
+          <DialogDescription>
+            Chat with Releaf Chat about the game — levels, goals, rewards, and gameplay help. I’ll only answer questions that relate to Releaf.
+          </DialogDescription>
         </DialogHeader>
         <div className="mt-4 max-h-[60vh] overflow-y-auto space-y-3">
           {messages.map((m, i) => (
