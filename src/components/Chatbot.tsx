@@ -38,10 +38,16 @@ export default function Chatbot() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <div className="fixed bottom-6 right-6 z-50">
+        <div className="fixed bottom-6 right-6 z-50">
         <DialogTrigger asChild>
-          {/* If not authenticated, still show a trigger but prompt to login inside the dialog */}
-          <Button className="rounded-full w-14 h-14 p-3 bg-primary text-white">Chat</Button>
+          {/* Show a lock badge when user is not authenticated */}
+          <Button
+            className={`rounded-full w-14 h-14 p-3 ${!isAuthenticated ? 'bg-muted-foreground/80 text-muted-foreground' : 'bg-primary text-white'}`}
+            title={!isAuthenticated ? 'Locked — sign in to use Chat' : 'Releaf Chat'}
+            aria-disabled={!isAuthenticated}
+          >
+            {isAuthenticated ? 'Chat' : '🔒'}
+          </Button>
         </DialogTrigger>
       </div>
 
