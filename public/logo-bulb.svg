@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240" width="600" height="240" aria-labelledby="title description">
+  <title id="title">Releaf Logo</title>
+  <desc id="description">Green bulb with a leaf accent and a subtle plus sign before the word 'RELEAF'.</desc>
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1">
+      <stop stop-color="#3AA24C" offset="0"/>
+      <stop stop-color="#0FA14A" offset="0.5"/>
+      <stop stop-color="#16A34A" offset="1"/>
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0a2f18" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- background - transparent -->
+  <g transform="translate(20,12)">
+    <!-- + sign (left) -->
+    <g transform="translate(-2,70)">
+      <rect x="0" y="18" width="12" height="60" rx="3" fill="#0f2f1a" opacity="1"/>
+      <rect x="-18" y="40" width="60" height="12" rx="3" fill="#0f2f1a" opacity="1"/>
+    </g>
+
+    <!-- Bulb: Outline + fill -->
+    <g transform="translate(95,30)" filter="url(#shadow)">
+      <path d="M133 47c-3-31-26-58-58-58-35 0-64 29-64 64 0 24 13 45 32 57 0 11-1 18-5 26 4 0 59 0 64 0 3-10 2-16 1-27 19-9 39-30 39-62 0-0 0-.5 0-.5z" fill="url(#g1)" stroke="#073b2b" stroke-width="3"/>
+      <!-- bulb screw base -->
+      <rect x="64" y="112" width="62" height="22" rx="6" fill="#e6f3ea" stroke="#073b2b" stroke-width="2"/>
+      <rect x="76" y="132" width="38" height="12" rx="4" fill="#e6f3ea" stroke="#073b2b" stroke-width="1"/>
+      <!-- leaf accent on bulb -->
+      <path d="M110 40c12 6 34 28 25 48-4 9-21 21-34 15 16-20 15-48 9-63z" fill="#9be59a" opacity=".95"/>
+    </g>
+
+    <!-- Brand text: + RELEAF -->
+    <g transform="translate(280,100)">
+      <text x="-72" y="46" font-family="Inter, Arial, sans-serif" font-weight="700" font-size="48" fill="#073b2b">+</text>
+      <text x="-8" y="46" font-family="Inter, Arial, sans-serif" font-weight="800" font-size="48" fill="#073b2b">RELEAF</text>
+    </g>
+  </g>
+</svg>

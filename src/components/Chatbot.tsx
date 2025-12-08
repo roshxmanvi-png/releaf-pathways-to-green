@@ -51,7 +51,7 @@ export default function Chatbot() {
         </DialogHeader>
         {!isAuthenticated ? (
           <div className="p-4">
-            <p className="text-muted-foreground">You must be logged in to use Releaf Chat.</p>
+            <p className="text-muted-foreground">Locked — please sign in or log in.</p>
             <div className="mt-4 flex gap-2">
               <Button asChild variant="outline">
                 <Link to="/login">Login</Link>

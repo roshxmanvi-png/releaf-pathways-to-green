@@ -34,8 +34,8 @@ const Index = () => {
       <nav className="fixed top-0 left-0 right-0 z-50 glass">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            {/* Logo image: place og-image.svg or og-image.png in public/ */}
-            <img src="/og-image.svg" alt="Releaf" className="w-10 h-10 object-contain" />
+            {/* Logo image: green bulb with plus symbol */}
+            <img src="/logo-bulb.svg" alt="Releaf" className="w-10 h-10 object-contain" />
             <span className="font-display text-2xl font-bold text-gradient">Releaf</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
@@ -230,7 +230,7 @@ const Index = () => {
               </div>
               <div className="relative">
                 <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
-                  <img src="/og-image.svg" alt="Releaf" className="w-48 h-48 object-contain mx-auto" />
+                  <img src="/logo-bulb.svg" alt="Releaf" className="w-48 h-48 object-contain mx-auto" />
                 </div>
               </div>
             </div>
@@ -261,7 +261,7 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-2">
-              <img src="/og-image.svg" alt="Releaf" className="w-6 h-6 object-contain" />
+              <img src="/logo-bulb.svg" alt="Releaf" className="w-6 h-6 object-contain" />
               <span className="font-display text-xl font-bold">Releaf</span>
             </div>
             <p className="text-muted-foreground text-sm">
