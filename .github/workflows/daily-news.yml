@@ -21,11 +21,12 @@ jobs:
         run: npm ci
       - name: Send daily sustainability news
         env:
-          EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
-          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
-          EMAILJS_USER_ID: ${{ secrets.EMAILJS_USER_ID }}
-          NEWS_RECIPIENT: ${{ secrets.NEWS_RECIPIENT }}
-          NEWS_NAME: ${{ secrets.NEWS_NAME }}
+              EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
+              EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+              EMAILJS_USER_ID: ${{ secrets.EMAILJS_USER_ID }}
+              NEWS_RECIPIENT: ${{ secrets.NEWS_RECIPIENT }}
+              NEWS_NAME: ${{ secrets.NEWS_NAME }}
+              NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
         run: |
           echo "Sending daily sustainability news to ${NEWS_RECIPIENT}..."
           node scripts/sendDailyNews.js

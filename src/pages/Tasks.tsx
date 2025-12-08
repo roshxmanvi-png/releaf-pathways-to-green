@@ -27,6 +27,32 @@ const Tasks = () => {
       return;
     }
     // Convert file to base64 to store (small-scale demo). For larger scale, use backend
+    // Try to upload to a server; fallback to client-side base64 storage
+    const uploadServerUrl = import.meta.env.VITE_UPLOAD_SERVER || (window as any).__UPLOAD_SERVER_URL || 'http://localhost:4000';
+
+    // If backend exists, upload via form-data
+    try {
+      const form = new FormData();
+      form.append('file', file);
+      const res = await fetch(`${uploadServerUrl}/upload`, { method: 'POST', body: form });
+      if (res.ok) {
+        const json = await res.json();
+        const newSub = { id: task.id, title: task.title, points: task.points, image: json.url, createdAt: Date.now() };
+        const raw = localStorage.getItem(`user-submissions-${user.username}`);
+        const arr = raw ? JSON.parse(raw) : [];
+        arr.push(newSub);
+        localStorage.setItem(`user-submissions-${user.username}`, JSON.stringify(arr));
+        setSubmissions(arr);
+        if (awardPoints) awardPoints(task.points, `Submission for ${task.title}`);
+        toast({ title: `Uploaded and submitted. ${task.points} points awarded!` });
+        return;
+      }
+    } catch (err) {
+      // If server not available, fallback to base64 localStorage approach
+      console.debug('Upload server not reachable; using localStorage fallback.', err);
+    }
+
+    // Fallback: read to base64 and store
     const reader = new FileReader();
     reader.onload = (e) => {
       const base = e.target?.result as string;

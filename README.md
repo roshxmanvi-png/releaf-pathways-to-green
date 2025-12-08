@@ -1,3 +1,25 @@
+### Optional: Run local upload server for Tasks (optional)
+
+If you'd like to store uploaded task photos on a server rather than localStorage, you can run a simple Express server included in the repo.
+
+To run locally:
+
+```bash
+npm install
+npm run start-server
+# Server will be at http://localhost:4000
+```
+
+The front-end `Tasks` page will attempt to upload images to `VITE_UPLOAD_SERVER` (if set), or fallback to `http://localhost:4000` by default. If the server is not accessible, the app will fallback to localStorage and base64-encoded images.
+
+### Optional: Use NewsAPI for real headlines
+
+To fetch live sustainability news instead of the static headlines:
+1. Sign up for an API key at https://newsapi.org/ (or another news provider).
+2. Add the `NEWS_API_KEY` to your GitHub Secrets (the scheduled job uses it) and to your local environment if you run the script locally.
+	- For GitHub Actions: `NEWS_API_KEY` secret.
+	- For local dev: export `NEWS_API_KEY` before running `npm run send-news`.
+
 # Welcome to your Lovable project
 
 ## Project info
