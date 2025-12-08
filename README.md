@@ -65,6 +65,36 @@ This project is built with:
 To update the site logo (used both in the navbar and Open Graph tags), add your logo image into the `public/` folder and name it `og-image.svg` or `og-image.png`.
 Then replace the file if you want to use another format. The project references `/og-image.svg` by default. If you have the provided image, place it at `public/og-image.svg` or replace the file with `public/og-image.png` and update references in `index.html` accordingly.
 
+## EmailJS: Daily Sustainability News Setup 🔔
+
+This project includes a scheduled job that sends a short daily sustainability digest using EmailJS. It uses two mechanisms:
+
+- Client-side: The site uses `src/lib/email.ts` and the `@emailjs/browser` package to send a one-off email at signup/login (if configured).
+- Server-side (GitHub Actions): A scheduled GitHub Actions job runs daily and sends the digest to a configured recipient via EmailJS REST API.
+
+Configuration steps:
+
+1. Sign up at https://www.emailjs.com/ and create a service and template following their docs.
+2. Configure your EmailJS template to accept `to_name`, `to_email`, and `message` variables.
+3. Add repository secrets under Settings → Secrets (Actions):
+	 - `EMAILJS_SERVICE_ID` — your EmailJS service ID
+	 - `EMAILJS_TEMPLATE_ID` — your EmailJS template ID
+	 - `EMAILJS_USER_ID` — your EmailJS public key (user id)
+	 - `NEWS_RECIPIENT` — (optional) recipient email for scheduled news (defaults to rishab.menon13@gmail.com)
+	 - (Optional client-side environment vars) Add Vite env vars in your hosting provider (Vercel / Netlify / GitHub Pages build config):
+		 - `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`, `VITE_EMAILJS_PUBLIC_KEY`
+
+4. To manually test the scheduled send locally, run:
+```bash
+EMAILJS_SERVICE_ID=service_xxx EMAILJS_TEMPLATE_ID=template_xxx EMAILJS_USER_ID=user_xxx NEWS_RECIPIENT=rishab.menon13@gmail.com npm run send-news
+```
+
+5. The GitHub Actions scheduled job (`.github/workflows/daily-news.yml`) will automatically run daily at 08:00 UTC and send the digest to `NEWS_RECIPIENT`.
+
+Notes:
+- The digest is generated with placeholder headlines (for demo). You can extend `scripts/sendDailyNews.js` to fetch a real news API for live data.
+- Client-side EmailJS usage is optional but convenient for logging in and signup events. Server-side scheduled job uses GitHub Actions for reliability and to ensure emails are sent daily.
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/594fb149-c2c2-46f1-99a6-52e22322b012) and click on Share -> Publish.

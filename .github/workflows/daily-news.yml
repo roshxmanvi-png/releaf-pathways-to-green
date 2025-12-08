@@ -1,0 +1,31 @@
+name: Daily Sustainability News
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # every day at 08:00 UTC
+  workflow_dispatch: {} # allow manual trigger
+
+permissions:
+  contents: read
+
+jobs:
+  send-news:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: npm ci
+      - name: Send daily sustainability news
+        env:
+          EMAILJS_SERVICE_ID: ${{ secrets.EMAILJS_SERVICE_ID }}
+          EMAILJS_TEMPLATE_ID: ${{ secrets.EMAILJS_TEMPLATE_ID }}
+          EMAILJS_USER_ID: ${{ secrets.EMAILJS_USER_ID }}
+          NEWS_RECIPIENT: ${{ secrets.NEWS_RECIPIENT }}
+          NEWS_NAME: ${{ secrets.NEWS_NAME }}
+        run: |
+          echo "Sending daily sustainability news to ${NEWS_RECIPIENT}..."
+          node scripts/sendDailyNews.js
