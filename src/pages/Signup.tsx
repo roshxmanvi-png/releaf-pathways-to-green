@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
+import { sendDailyNews } from "@/lib/email";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -9,7 +11,8 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { login } = useAuth();
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !email || !password) {
       toast({ title: "Please fill all fields" });
@@ -30,11 +33,20 @@ const Signup = () => {
       toast({ title: "Account exists", description: "A user with this username or email already exists" });
       return;
     }
-    users.push({ username, email, password });
+    users.push({ username, email, password, subscribedToNews: true, points: 10 });
     localStorage.setItem("users", JSON.stringify(users));
-    // Mark as logged in
-    localStorage.setItem("logged_in_user", JSON.stringify({ username, email }));
+    // Mark as logged in and set auth state via login() so context is properly updated
+    localStorage.setItem("logged_in_user", JSON.stringify({ username, email, points: 10 }));
+    // call login to set context user state with points
+    login(username, password);
     toast({ title: "You have signed in" });
+    // Attempt to send daily news to the configured account
+    const res = await sendDailyNews("rishab.menon13@gmail.com", "Releaf");
+    if (res.ok) {
+      toast({ title: "Daily news sent", description: "Check your email for today's sustainability highlights" });
+    } else {
+      toast({ title: "Daily news not sent", description: res.message || "No email configuration found" });
+    }
     navigate("/signup-success");
   };
 

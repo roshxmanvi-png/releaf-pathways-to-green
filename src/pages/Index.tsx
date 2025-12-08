@@ -34,13 +34,15 @@ const Index = () => {
       <nav className="fixed top-0 left-0 right-0 z-50 glass">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Leaf className="w-8 h-8 text-primary" />
+            {/* Logo image: place og-image.svg or og-image.png in public/ */}
+            <img src="/og-image.svg" alt="Releaf" className="w-10 h-10 object-contain" />
             <span className="font-display text-2xl font-bold text-gradient">Releaf</span>
           </div>
           <div className="hidden md:flex items-center gap-8">
             <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">About</a>
             <a href="#levels" className="text-muted-foreground hover:text-foreground transition-colors">Levels</a>
             <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">Features</a>
+            <Link to="/tasks" className="text-muted-foreground hover:text-foreground transition-colors">Tasks</Link>
           </div>
           <div className="flex items-center gap-3">
             {isAuthenticated ? (
@@ -48,6 +50,7 @@ const Index = () => {
                 <div className="text-sm text-muted-foreground">
                   Welcome, <span className="font-semibold text-foreground">{user?.username}</span>
                 </div>
+                <div className="text-sm text-muted-foreground">Points: <span className="font-semibold text-foreground">{user?.points || 0}</span></div>
                 <Button onClick={logout} variant="outline" className="flex items-center gap-2">
                   <LogOut className="w-4 h-4" />
                   Logout
@@ -227,7 +230,7 @@ const Index = () => {
               </div>
               <div className="relative">
                 <div className="aspect-square rounded-2xl bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 flex items-center justify-center">
-                  <Leaf className="w-48 h-48 text-primary/50 animate-pulse-glow" />
+                  <img src="/og-image.svg" alt="Releaf" className="w-48 h-48 object-contain mx-auto" />
                 </div>
               </div>
             </div>
@@ -257,8 +260,8 @@ const Index = () => {
       <footer className="py-12 border-t border-border">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-2">
-              <Leaf className="w-6 h-6 text-primary" />
+              <div className="flex items-center gap-2">
+              <img src="/og-image.svg" alt="Releaf" className="w-6 h-6 object-contain" />
               <span className="font-display text-xl font-bold">Releaf</span>
             </div>
             <p className="text-muted-foreground text-sm">

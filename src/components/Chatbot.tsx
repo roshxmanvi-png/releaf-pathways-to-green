@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { Link } from "react-router-dom";
 
   const cannedResponses = (msg: string, username?: string) => {
   const text = msg.toLowerCase();
@@ -18,14 +19,9 @@ import { useAuth } from "@/contexts/AuthContext";
 };
 
 export default function Chatbot() {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<{ from: "user" | "bot"; text: string }[]>([
-    {
-      from: "bot",
-      text: "Hi! I'm Releaf Chat — your friendly in-game assistant. I can help with levels, challenges, and rewards. I don't answer questions outside the game."
-    },
-  ]);
+  const [messages, setMessages] = useState<{ from: "user" | "bot"; text: string }[]>([]);
   const [value, setValue] = useState("");
 
   const send = () => {
@@ -44,6 +40,7 @@ export default function Chatbot() {
     <Dialog open={open} onOpenChange={setOpen}>
       <div className="fixed bottom-6 right-6 z-50">
         <DialogTrigger asChild>
+          {/* If not authenticated, still show a trigger but prompt to login inside the dialog */}
           <Button className="rounded-full w-14 h-14 p-3 bg-primary text-white">Chat</Button>
         </DialogTrigger>
       </div>
@@ -51,11 +48,22 @@ export default function Chatbot() {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Releaf Chat</DialogTitle>
-          <DialogDescription>
-            Chat with Releaf Chat about the game — levels, goals, rewards, and gameplay help. I’ll only answer questions that relate to Releaf.
-          </DialogDescription>
         </DialogHeader>
-        <div className="mt-4 max-h-[60vh] overflow-y-auto space-y-3">
+        {!isAuthenticated ? (
+          <div className="p-4">
+            <p className="text-muted-foreground">You must be logged in to use Releaf Chat.</p>
+            <div className="mt-4 flex gap-2">
+              <Button asChild variant="outline">
+                <Link to="/login">Login</Link>
+              </Button>
+              <Button asChild className="bg-primary text-white">
+                <Link to="/signup">Sign Up</Link>
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className="mt-4 max-h-[60vh] overflow-y-auto space-y-3">
           {messages.map((m, i) => (
             <div key={i} className={`p-3 rounded ${m.from === "user" ? "bg-primary/10 text-primary ml-auto max-w-[80%]" : "bg-muted-foreground/10"}`}>
               {m.text.split("\n").map((line, li) => (
@@ -63,11 +71,13 @@ export default function Chatbot() {
               ))}
             </div>
           ))}
-        </div>
-        <div className="mt-4 flex gap-2">
-          <input className="flex-1 px-3 py-2 rounded-md bg-background border border-input" value={value} onChange={(e) => setValue(e.target.value)} placeholder="Ask about levels, gameplay, or rewards" />
-          <Button onClick={send}>Send</Button>
-        </div>
+            </div>
+            <div className="mt-4 flex gap-2">
+            <input className="flex-1 px-3 py-2 rounded-md bg-background border border-input" value={value} onChange={(e) => setValue(e.target.value)} />
+            <Button onClick={send}>Send</Button>
+            </div>
+          </div>
+        )}
         <DialogClose className="mt-4">Close</DialogClose>
       </DialogContent>
     </Dialog>

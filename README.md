@@ -60,6 +60,11 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
+## Changing the Site Logo
+
+To update the site logo (used both in the navbar and Open Graph tags), add your logo image into the `public/` folder and name it `og-image.svg` or `og-image.png`.
+Then replace the file if you want to use another format. The project references `/og-image.svg` by default. If you have the provided image, place it at `public/og-image.svg` or replace the file with `public/og-image.png` and update references in `index.html` accordingly.
+
 ## How can I deploy this project?
 
 Simply open [Lovable](https://lovable.dev/projects/594fb149-c2c2-46f1-99a6-52e22322b012) and click on Share -> Publish.

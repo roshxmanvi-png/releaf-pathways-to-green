@@ -9,6 +9,7 @@ import Signup from "./pages/Signup";
 import Verify from "./pages/Verify";
 import SignupSuccess from "./pages/SignupSuccess";
 import Login from "./pages/Login";
+import Tasks from "./pages/Tasks";
 import { AuthProvider } from "./contexts/AuthContext";
 import Chatbot from "./components/Chatbot";
 
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/verify" element={<Verify />} />
             <Route path="/signup-success" element={<SignupSuccess />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/tasks" element={<Tasks />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

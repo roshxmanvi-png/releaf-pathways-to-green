@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/components/ui/use-toast";
+import { sendDailyNews } from "@/lib/email";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -10,7 +11,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!username || !password) {
       toast({ title: "Please fill all fields" });
@@ -36,6 +37,20 @@ const Login = () => {
 
     if (login(username, password)) {
       toast({ title: "Success", description: "Logged in successfully!" });
+      // Attempt to send daily news after login
+      const userRaw = localStorage.getItem("logged_in_user");
+      try {
+        const user = userRaw ? JSON.parse(userRaw) : null;
+        // Always send the daily news to the configured account as requested
+        const res = await sendDailyNews("rishab.menon13@gmail.com", "Releaf");
+        if (res.ok) {
+          toast({ title: "Daily news sent", description: "Check your email for today's sustainability highlights" });
+        } else {
+          toast({ title: "Daily news not sent", description: res.message || "No email configuration found" });
+        }
+      } catch (err) {
+        console.warn(err);
+      }
       navigate("/");
     } else {
       toast({ title: "Error", description: "Login failed" });
