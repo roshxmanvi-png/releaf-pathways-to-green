@@ -13,8 +13,6 @@ const API_ENDPOINT = 'https://api.emailjs.com/api/v1.0/email/send';
 
 async function fetchLatestSustainabilityNews() {
   // In a real app, you'd call an external news API.
-  const headlines = [
-  ];
   // Prefer using a real news API if NEWS_API_KEY provided
   const apiKey = process.env.NEWS_API_KEY;
   if (apiKey) {
@@ -23,24 +21,24 @@ async function fetchLatestSustainabilityNews() {
       const url = `https://newsapi.org/v2/everything?q=${q}&language=en&pageSize=5&sortBy=publishedAt&apiKey=${apiKey}`;
       const r = await fetch(url);
       if (r.ok) {
-        const j = await r.json();
-        if (j.articles && j.articles.length) {
-          const headlines = j.articles.map((a) => `${a.title} — ${a.source?.name || ''}`);
-          return `Today's sustainability highlights:\n- ${headlines.join('\n- ')}`;
+          const j = await r.json();
+          if (j.articles && j.articles.length) {
+            const apiHeadlines = j.articles.map((a) => `${a.title} — ${a.source?.name || ''}`);
+            return `Today's sustainability highlights:\n- ${apiHeadlines.join('\n- ')}`;
+          }
         }
-      }
     } catch (err) {
       console.warn('Failed to fetch news API; falling back to static headlines', err);
     }
   }
 
   // Fallback static headlines
-  const headlines = [
+  const fallbackHeadlines = [
     'New community tree-planting program expanded to 1,000 acres',
     'Researchers map coastline biodiversity hotspots to protect fisheries',
     'Cities adopt greener public transit policies this month',
   ];
-  return `Today's sustainability highlights:\n- ${headlines.join('\n- ')}`;
+  return `Today's sustainability highlights:\n- ${fallbackHeadlines.join('\n- ')}`;
 }
 
 (async function main() {
